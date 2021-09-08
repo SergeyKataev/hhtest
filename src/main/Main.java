@@ -8,35 +8,45 @@ public class Main {
     public static void main(String[] args) {
         Scanner in = new Scanner(System.in);
         String line = in.nextLine();
-        List<Integer> bankAccounts = new ArrayList();
+        int[] bankAccounts = new int[Integer.parseInt(line.split("\\s+")[0])];
         int managerCount = Integer.parseInt(line.split("\\s+")[1]);
+        int i = 0;
         while (in.hasNextLine()) {
             String currentLine = in.nextLine();
             if (currentLine.equals("")) {
                 break;
             }
-            bankAccounts.add(Integer.parseInt(currentLine));
+            bankAccounts[i] = Integer.parseInt(currentLine);
+            i++;
         }
 
-        if (bankAccounts
-                .stream()
-                .reduce(0, Integer::sum) < managerCount
-        ) {
+        int sum = 0;
+        for (int value : bankAccounts) {
+            sum += value;
+        }
+
+        if (sum < managerCount) {
             System.out.println(0);
             return;
         }
 
         int minimumBonus = 1;
-        while (managerCount < maxManagerWithMinumumBonus(bankAccounts, minimumBonus)) {
+
+        if (managerCount == 1) {
+            System.out.println(maxManagerWithMinumumBonus(bankAccounts, minimumBonus));
+            return;
+        }
+
+        while (managerCount <= maxManagerWithMinumumBonus(bankAccounts, minimumBonus)) {
             minimumBonus++;
         }
-        System.out.println(minimumBonus);
+        System.out.println(minimumBonus - 1);
     }
 
-    private static int maxManagerWithMinumumBonus(List<Integer> bankAccounts, int minimumBonus) {
+    private static int maxManagerWithMinumumBonus(int[] bankAccounts, int minimumBonus) {
         int managerCount = 0;
-        for (Integer a : bankAccounts) {
-            managerCount += a / minimumBonus;
+        for (var accountSum : bankAccounts) {
+            managerCount += accountSum / minimumBonus;
         }
         return managerCount;
     }
