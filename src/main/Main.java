@@ -1,7 +1,5 @@
 package main;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Scanner;
 
 public class Main {
@@ -33,7 +31,10 @@ public class Main {
         int minimumBonus = 1;
 
         if (managerCount == 1) {
-            System.out.println(maxManagerWithMinumumBonus(bankAccounts, minimumBonus));
+            int ret = bankAccounts[0];
+            for(int k = 1; k < bankAccounts.length; k++)
+                ret = Math.max(ret,bankAccounts[k]);
+            System.out.println(ret);
             return;
         }
 
